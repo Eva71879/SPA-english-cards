@@ -1,12 +1,17 @@
-import './App.css'
+import './App.css';
+import Header from './components/Header/header';
+import WordList from './components/WordList/wordList'
+import Footer from './components/Footer/footer';
 
 function App() {
   
 
   return (
-    <>
-  <h1>Приложение для изучения английского</h1>
-    </>
+    <div className="app">
+      <Header />
+      <WordList/>
+      <Footer />
+    </div>
   )
 }
 
