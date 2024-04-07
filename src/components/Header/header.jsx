@@ -1,13 +1,12 @@
 import styles from '../Header/header.module.css'
 
-function Header() {
-  
-
+export default function Header() {
   return (
     <>
-  <h1 className={styles.title}>Приложение для изучения английского</h1>
+      <div className={styles.header}>
+        <h1 className={styles.title}>WordWizard</h1>
+        <h2 className={styles.subtitle}>английский как по волшебству</h2>
+      </div>
     </>
   )
 }
-
-export default Header;

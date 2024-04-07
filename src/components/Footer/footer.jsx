@@ -5,9 +5,9 @@ function Footer() {
 
   return (
     <>
-    <div className="footer">
-    <button className={styles.button}>Учить слова</button>
-    <button className={styles.button}>К списку слов</button>
+    <div className={styles.footer}>
+      <button className={styles.button}>учить слова</button>
+      <button className={styles.button}>к списку слов</button>
     </div>
     </>
   )
