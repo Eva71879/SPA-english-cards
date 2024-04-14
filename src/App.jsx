@@ -1,25 +1,21 @@
 import React from 'react';
 import './App.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
 
 //components
-import BasicTable from './components/BasicTable';
 import Header from './components/Header/header';
-import Card from './components/Card/Card';
-// import WordList from './components/WordList/wordList';
+import Content from './components/Content/Content';
 import Footer from './components/Footer/footer';
-import data from './data/data.json'
 
 function App() {
-  
-console.log(data);
+
   return (
     <div className="app">
-      <Header />
-      <BasicTable/>
-      <Card/>
 
-      {/* <WordList/> */}
-      <Footer />
+      <Header />
+      <Content/>
+      <Footer/>
     </div>
   )
 }

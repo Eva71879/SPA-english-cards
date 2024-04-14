@@ -2,7 +2,7 @@
     width: 100%;
     height: 100vh;
     outline: 2px solid pink;
-    background-color: var(--whiteColor);
+    /* background-color: var(--whiteColor); */
     display: flex;
     flex-direction: column;
 }

@@ -3,6 +3,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0 25px;
 }
 
 .cardBody {
@@ -76,10 +77,13 @@ border: 1px solid var(--hoverBackgroundColor);
     color: rgba(255, 255, 255, 0.7);
     transition: all 0.3s ease;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .translation {
     color: white;
-    font-size: 35px;
+    font-size: 25px;
 
 }
