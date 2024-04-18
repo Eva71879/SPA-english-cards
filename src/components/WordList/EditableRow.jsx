@@ -43,12 +43,14 @@ const EditableRow = ({
           onChange={handleEditFormChange}
         ></input>
       </td>
-      <td className={styles.buttonWrapper}>
+      <td>
         <button title="сохранить" className={styles.saveButton} type="submit">
-          <FontAwesomeIcon icon={faSquareCheck} />
+          <FontAwesomeIcon icon={faSquareCheck} className={styles.icon} />
         </button>
+      </td>
+      <td>
         <button title="отмена" type="button" onClick={handleCancelClick}>
-          <FontAwesomeIcon icon={faArrowRotateLeft} />
+          <FontAwesomeIcon icon={faArrowRotateLeft} className={styles.icon} />
         </button>
       </td>
     </tr>

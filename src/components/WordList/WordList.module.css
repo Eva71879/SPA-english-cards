@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: 25px;
+  margin-top: 150px;
 }
 
 .tableWrapper table {
@@ -10,16 +11,20 @@
   width: 80%;
 }
 
+.icon {
+  font-size: 18px;
+}
+
 td {
-  width: 25%;
+  width: 25px;
   height: 20px;
   color: var(--fontWhiteColor);
   text-align: center;
 }
 
-/* table tr:hover {
+table tr:hover {
   background-color: rgba(255, 255, 255, 0.1);
-} */
+}
 
 input {
   background-color: rgba(0, 0, 0, 0);
@@ -28,7 +33,7 @@ input {
   color: var(--fontWhiteColor);
   width: 100%;
   height: 35px;
-  font-size: 14px;
+  font-size: 16px;
   caret-color: #ccc;
   text-align: center;
 }
@@ -43,7 +48,6 @@ input::placeholder {
   color: #ccc;
   text-align: center;
   height: 35px;
-  height: 100%;
 }
 
 input:focus {
@@ -60,13 +64,11 @@ input:focus::placeholder {
   cursor: pointer;
   background-color: var(--hoverBackgroundColor);
   border-radius: 5px;
-  
+  width: 20%;
 }
 
 .formChange td:last-child {
   cursor: auto;
-  /* background-color: transparent; */
-  height: 100%;
 }
 
 .formChange tr:last-child:hover {
@@ -79,12 +81,6 @@ input:focus::placeholder {
   border: 1px solid rgba(204, 204, 204, 0.3);
   padding: 7px;
 }
-
-.formEdit td:last-child {
-  /* border: none; */
-
-}
-
 
 .buttonWrapper {
   display: flex;
@@ -102,7 +98,7 @@ button {
   color: #ccc;
   border: none;
   cursor: pointer;
-  margin: 10px;
+  margin: 5px;
 }
 
 button:hover {

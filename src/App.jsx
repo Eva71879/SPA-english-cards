@@ -1,23 +1,26 @@
-import React from 'react';
-import './App.css';
-import '@fortawesome/fontawesome-free/css/all.min.css';
-
+import "./App.css";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 //components
-import Header from './components/Header/header';
-import Content from './components/Content/Content';
-import Footer from './components/Footer/footer';
+import Header from "./components/Header/header";
+import WordList from "./components/WordList/WordList";
+import CardWrapper from "./components/Card/CardWrapper";
+import MissingPage from "./components/MissingPage/MissingPage";
 
 function App() {
-
   return (
-    <div className="app">
-
-      <Header />
-      <Content/>
-      <Footer/>
-    </div>
-  )
+    <Router>
+      <div className="app">
+        <Header />
+        <Routes>
+          <Route path="/" element={<WordList />} />
+          <Route path="/game" element={<CardWrapper />} />
+          <Route path="*" element={<MissingPage />} />
+        </Routes>
+      </div>
+    </Router>
+  );
 }
 
-export default App
+export default App;

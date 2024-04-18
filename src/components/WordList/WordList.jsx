@@ -1,10 +1,10 @@
-import React, { useState, Fragment } from "react";
+import { useState, Fragment } from "react";
 import { nanoid } from "nanoid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 import styles from "./WordList.module.css";
-import data from "../../../data/data.json";
+import data from "../../data/data.json";
 import ReadOnlyRow from "./ReadOnlyRow";
 import EditableRow from "./EditableRow";
 
@@ -142,12 +142,16 @@ const WordList = () => {
                   onChange={handleAddFormChange}
                 />
               </td>{" "}
-              <button type="submit" title="добавить слово">
-                <FontAwesomeIcon icon={faPlus} />
-              </button>
-              <button type="submit">
-                <FontAwesomeIcon icon={faTimes} />
-              </button>
+              <td className={styles.tdButton}>
+                <button type="submit" title="добавить слово">
+                  <FontAwesomeIcon icon={faPlus} className={styles.icon} />
+                </button>
+              </td>
+              <td className={styles.tdButton}>
+                <button type="submit">
+                  <FontAwesomeIcon icon={faTimes} className={styles.icon} />
+                </button>
+              </td>
             </tr>
           </tbody>
         </table>
