@@ -1,19 +1,27 @@
+
 .wrapper {
     display: flex;
+    flex-direction: column;
     background-color: var(--hoverBackgroundColor);
     height: 90px;
-    justify-content: space-evenly;
-    align-items: center;
+    /* justify-content: center;
+    align-items: center; */
     margin-bottom: 30px;
     padding: 10px 0;
     position: fixed;
     top: 0;
     width: 100%;
+
 }
 
 .image {
     width: 70px;
     border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.image:hover {
+    transform: scale(1.2);
 }
 
 .header {
@@ -22,6 +30,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin-bottom: -63px;
+
 }
 
 .title {
@@ -33,6 +43,12 @@
 
 .subtitle {
     font-weight: 200;
+}
+
+.nav {
+    display: flex;
+    margin: 0 auto;
+    gap: 650px;
 }
 
 .links {

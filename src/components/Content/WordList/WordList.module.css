@@ -1,0 +1,112 @@
+.tableWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  outline: 3px solid purple;
+  margin-top: 150px;
+}
+
+.tableWrapper table {
+  margin: 0 auto;
+  border-spacing: 5px;
+  width: 80%;
+}
+
+td {
+  width: 25%;
+  height: 20px;
+  color: var(--fontWhiteColor);
+  text-align: center;
+}
+
+/* table tr:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+} */
+
+input {
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  border-radius: 5px;
+  color: var(--fontWhiteColor);
+  width: 100%;
+  height: 35px;
+  font-size: 14px;
+  caret-color: #ccc;
+  text-align: center;
+}
+
+input:hover {
+  cursor: pointer;
+}
+
+input::placeholder {
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  color: #ccc;
+  text-align: center;
+  height: 35px;
+  height: 100%;
+}
+
+input:focus {
+  outline: #ccc;
+  box-shadow: 0 0 2px white;
+  cursor: text;
+}
+
+input:focus::placeholder {
+  color: transparent;
+}
+
+.formChange td {
+  cursor: pointer;
+  background-color: var(--hoverBackgroundColor);
+  border-radius: 5px;
+  
+}
+
+.formChange td:last-child {
+  cursor: auto;
+  /* background-color: transparent; */
+  height: 100%;
+}
+
+.formChange tr:last-child:hover {
+  background-color: transparent;
+}
+
+
+
+.formEdit td {
+  border: 1px solid rgba(204, 204, 204, 0.3);
+  padding: 7px;
+}
+
+.formEdit td:last-child {
+  /* border: none; */
+
+}
+
+
+.buttonWrapper {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+
+button {
+  background-color: transparent;
+  color: #ccc;
+  border: none;
+  cursor: pointer;
+  margin: 10px;
+}
+
+button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}

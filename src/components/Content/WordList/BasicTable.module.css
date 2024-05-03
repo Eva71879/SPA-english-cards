@@ -1,0 +1,34 @@
+.tableWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+table {
+    border-collapse: collapse;
+    width: 80%;
+  }
+  
+  table td,
+  table th {
+    border: 1px solid #ddd;
+    padding: 10px;
+    color: var(--fontWhiteColor);
+    text-align: center;
+  }
+  
+  table tr:nth-child(even) {
+    /* background-color: #f2f2f2; */
+  }
+  
+  table tr:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  table th, tfoot td {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    color: white;
+  }

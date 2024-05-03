@@ -1,17 +1,22 @@
-import { useState, useEffect } from 'react';
-import styles from './Card.module.css';
+import React from "react";
+import styles from "./Card.module.css";
 
 function Card(props) {
-  const { english, transcription, russian } = props;
-  const [showTranslation, setShowTranslation] = useState(false);
+  const {
+    english,
+    transcription,
+    russian,
+    showTranslation,
+    toggleTranslation,
+    increment,
+    countTranslationClick,
+    buttonRef, //принимаю реф от родителя
+  } = props; //принимаю пропсы от родителя (CardWrapper)
 
-  const toggleTranslation = () => {
-    setShowTranslation(!showTranslation);
+  const handleTranslationClick = () => {
+    toggleTranslation(); // показываем или скрываем перевод
+    increment(); // Увеличиваем счетчик при нажатии на перевод
   };
-
-  useEffect(() => {
-    setShowTranslation(false);
-  }, [props]);
 
   return (
     <div className={styles.wrapper}>
@@ -22,12 +27,23 @@ function Card(props) {
         </div>
         <div className={styles.cardFooter}>
           {showTranslation ? (
-            <div className={styles.translationWrapper}><p className={styles.translation}>{russian}</p></div>
+            <div className={styles.translationWrapper}>
+              <p className={styles.translation}>{russian}</p>
+            </div>
           ) : (
-            <button className={styles.button} onClick={toggleTranslation}>перевод</button>
+            <button
+              ref={buttonRef} //устанавливаю реф на кнопку
+              className={styles.button}
+              onClick={handleTranslationClick}
+            >
+              перевод
+            </button>
           )}
         </div>
       </div>
+      <p className={styles.counter}>
+        Выучено слов сегодня: {countTranslationClick}
+      </p>
     </div>
   );
 }

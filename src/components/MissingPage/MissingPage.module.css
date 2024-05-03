@@ -10,11 +10,13 @@
     justify-content: center;
     align-items: center;
     opacity: 0.7;
-
-
 }
 
-p {
+.wrapper p {
     color: white;
     font-size: 60px;
+    text-shadow: -1px -1px 0 #000,  
+                  1px -1px 0 #000,
+                 -1px  1px 0 #000,
+                  1px  1px 0 #000;
 }
