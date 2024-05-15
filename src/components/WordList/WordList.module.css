@@ -28,6 +28,7 @@ table tr:hover {
 
 input {
   background-color: rgba(0, 0, 0, 0);
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   border: none;
   border-radius: 5px;
   color: var(--fontWhiteColor);
@@ -103,4 +104,8 @@ button {
 
 button:hover {
   background-color: rgba(255, 255, 255, 0.1);
+}
+
+.empty {
+  border-color: red;
 }

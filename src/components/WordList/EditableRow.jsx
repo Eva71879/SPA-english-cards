@@ -1,4 +1,4 @@
-// import React from "react";
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSquareCheck,
@@ -11,18 +11,32 @@ const EditableRow = ({
   editFormData,
   handleEditFormChange,
   handleCancelClick,
+  isFormValid, // Передаем состояние валидности формы редактирования
 }) => {
+  // Проверяем, является ли поле пустым
+  const isFieldEmpty = (fieldName) => {
+    return editFormData[fieldName].trim() === "";
+  };
+
+  // Добавляем класс для обводки красной рамкой, если поле пустое
+  const inputClassName = (fieldName) => {
+    return isFieldEmpty(fieldName)
+      ? `${styles.input} ${styles.empty}`
+      : styles.input;
+  };
+
   return (
     <tr>
       <td>
         <input
           type="text"
-          required="required"
+          required
           placeholder="english word"
           name="english"
           value={editFormData.english}
+          className={inputClassName("english")} // Добавляем класс для обводки красной рамкой, если поле пустое
           onChange={handleEditFormChange}
-        ></input>
+        />
       </td>
       <td>
         <input
@@ -31,20 +45,26 @@ const EditableRow = ({
           name="transcription"
           value={editFormData.transcription}
           onChange={handleEditFormChange}
-        ></input>
+        />
       </td>
       <td>
         <input
           type="text"
-          required="required"
+          required
           placeholder="перевод слова"
           name="russian"
           value={editFormData.russian}
+          className={inputClassName("russian")} // Добавляем класс для обводки красной рамкой, если поле пустое
           onChange={handleEditFormChange}
-        ></input>
+        />
       </td>
       <td>
-        <button title="сохранить" className={styles.saveButton} type="submit">
+        <button
+          title="сохранить"
+          className={styles.saveButton}
+          type="submit"
+          disabled={!isFormValid} // Блокируем кнопку сохранения, если форма не валидна
+        >
           <FontAwesomeIcon icon={faSquareCheck} className={styles.icon} />
         </button>
       </td>

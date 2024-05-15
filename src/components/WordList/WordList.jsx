@@ -141,7 +141,7 @@ const WordList = () => {
                   placeholder="перевод слова"
                   onChange={handleAddFormChange}
                 />
-              </td>{" "}
+              </td>
               <td className={styles.tdButton}>
                 <button type="submit" title="добавить слово">
                   <FontAwesomeIcon icon={faPlus} className={styles.icon} />
@@ -158,17 +158,9 @@ const WordList = () => {
       </form>
       <form onSubmit={handleEditFormSubmit}>
         <table>
-          {/* <thead>
-            <tr>
-              <th>english</th>
-              <th>transcription</th>
-              <th>Phone Number</th>
-              <th>Actions</th>
-            </tr>
-          </thead> */}
           <tbody className={styles.formEdit}>
             {words.map((word) => (
-              <Fragment>
+              <Fragment key={word.id}>
                 {editWordId === word.id ? (
                   <EditableRow
                     editFormData={editFormData}
