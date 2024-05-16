@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSquareCheck,
@@ -11,18 +11,67 @@ const EditableRow = ({
   editFormData,
   handleEditFormChange,
   handleCancelClick,
-  isFormValid, // Передаем состояние валидности формы редактирования
+  validateField,
+  editWordId,
+  setEditWordId, // Добавляем пропс для обновления editWordId
 }) => {
-  // Проверяем, является ли поле пустым
-  const isFieldEmpty = (fieldName) => {
-    return editFormData[fieldName].trim() === "";
+  const [errors, setErrors] = useState({
+    english: "",
+    russian: "",
+  });
+
+  const [isFormValid, setIsFormValid] = useState(true);
+
+  useEffect(() => {
+    validateForm();
+  }, [editFormData]);
+
+  const validateForm = () => {
+    const isValidEnglish = validateField("english", editFormData.english);
+    const isValidTranscription = validateField(
+      "transcription",
+      editFormData.transcription
+    );
+    const isValidRussian = validateField("russian", editFormData.russian);
+
+    const isNotEmpty =
+      editFormData.english.trim() !== "" &&
+      editFormData.transcription.trim() !== "" &&
+      editFormData.russian.trim() !== "";
+
+    const isFormValid =
+      isNotEmpty &&
+      isValidEnglish === "" &&
+      isValidTranscription === "" &&
+      isValidRussian === "";
+
+    setIsFormValid(isFormValid);
+    return isFormValid;
   };
 
-  // Добавляем класс для обводки красной рамкой, если поле пустое
+  const handleInputChange = (event) => {
+    const fieldName = event.target.name;
+    const fieldValue = event.target.value;
+    const errorMessage = validateField(fieldName, fieldValue);
+    setErrors({ ...errors, [fieldName]: errorMessage });
+
+    // Обновляем editFormData при изменении input
+    const newEditFormData = { ...editFormData, [fieldName]: fieldValue };
+    handleEditFormChange(event, newEditFormData);
+  };
+
   const inputClassName = (fieldName) => {
-    return isFieldEmpty(fieldName)
-      ? `${styles.input} ${styles.empty}`
+    return errors[fieldName]
+      ? `${styles.input} ${styles.empty} ${styles.inputError}`
       : styles.input;
+  };
+
+  const handleEditFormSubmit = (event) => {
+    event.preventDefault();
+    console.log("Word ID:", editWordId, "Form data:", editFormData);
+
+    // Добавляем обновление editWordId
+    setEditWordId(null);
   };
 
   return (
@@ -34,9 +83,12 @@ const EditableRow = ({
           placeholder="english word"
           name="english"
           value={editFormData.english}
-          className={inputClassName("english")} // Добавляем класс для обводки красной рамкой, если поле пустое
-          onChange={handleEditFormChange}
+          onChange={handleInputChange}
+          className={inputClassName("english")}
         />
+        {errors.english && (
+          <div className={styles.errorMsg}>{errors.english}</div>
+        )}
       </td>
       <td>
         <input
@@ -44,8 +96,12 @@ const EditableRow = ({
           placeholder="транскрипция"
           name="transcription"
           value={editFormData.transcription}
-          onChange={handleEditFormChange}
+          className={inputClassName("transcription")}
+          onChange={handleInputChange}
         />
+        {errors.transcription && (
+          <div className={styles.errorMsg}>{errors.transcription}</div>
+        )}
       </td>
       <td>
         <input
@@ -54,22 +110,26 @@ const EditableRow = ({
           placeholder="перевод слова"
           name="russian"
           value={editFormData.russian}
-          className={inputClassName("russian")} // Добавляем класс для обводки красной рамкой, если поле пустое
-          onChange={handleEditFormChange}
+          className={inputClassName("russian")}
+          onChange={handleInputChange}
         />
+        {errors.russian && (
+          <div className={styles.errorMsg}>{errors.russian}</div>
+        )}
       </td>
       <td>
         <button
           title="сохранить"
-          className={styles.saveButton}
+          className={`${styles.saveButton} ${!isFormValid && styles.disabled}`}
           type="submit"
-          disabled={!isFormValid} // Блокируем кнопку сохранения, если форма не валидна
+          disabled={!isFormValid}
+          onClick={handleEditFormSubmit}
         >
           <FontAwesomeIcon icon={faSquareCheck} className={styles.icon} />
         </button>
       </td>
       <td>
-        <button title="отмена" type="button" onClick={handleCancelClick}>
+        <button title="отмена" type="reset" onClick={handleCancelClick}>
           <FontAwesomeIcon icon={faArrowRotateLeft} className={styles.icon} />
         </button>
       </td>

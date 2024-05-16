@@ -41,6 +41,7 @@ input {
 
 input:hover {
   cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 input::placeholder {
@@ -49,6 +50,7 @@ input::placeholder {
   color: #ccc;
   text-align: center;
   height: 35px;
+  opacity: 0.5;
 }
 
 input:focus {
@@ -59,6 +61,7 @@ input:focus {
 
 input:focus::placeholder {
   color: transparent;
+  opacity: 0.5;
 }
 
 .formChange td {
@@ -106,6 +109,17 @@ button:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-.empty {
-  border-color: red;
+.inputError {
+  border: 1px solid red; /* Красная обводка при ошибке */
+}
+
+.errorMsg {
+  color: red; /* Красный текст сообщения об ошибке */
+  font-size: 10px; /* Размер шрифта сообщения об ошибке */
+}
+
+.disabled {
+  /* Стили для неактивной кнопки */
+  opacity: 0.5; /* Уменьшаем прозрачность */
+  cursor: not-allowed; /* Запрещаем изменение курсора */
 }
