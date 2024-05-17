@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSquareCheck,
   faArrowRotateLeft,
 } from "@fortawesome/free-solid-svg-icons";
+import WordsContext from "../../contexts/WordsContext";
 
 import styles from "./WordList.module.css";
 
@@ -13,10 +14,13 @@ const EditableRow = ({
   handleCancelClick,
   validateField,
   editWordId,
-  setEditWordId, // Добавляем пропс для обновления editWordId
+  setEditWordId,
 }) => {
+  const { updateWord } = useContext(WordsContext); // Получение функции обновления слова из контекста
+
   const [errors, setErrors] = useState({
     english: "",
+    transcription: "",
     russian: "",
   });
 
@@ -66,12 +70,18 @@ const EditableRow = ({
       : styles.input;
   };
 
-  const handleEditFormSubmit = (event) => {
+  const handleEditFormSubmit = async (event) => {
     event.preventDefault();
     console.log("Word ID:", editWordId, "Form data:", editFormData);
 
-    // Добавляем обновление editWordId
-    setEditWordId(null);
+    try {
+      await updateWord(editFormData); // Используем функцию обновления слова из контекста
+      console.log("Changes saved successfully!");
+      setEditWordId(null);
+    } catch (error) {
+      console.error("Error updating word:", error);
+      // В случае ошибки отображаем сообщение пользователю или выполняем другие необходимые действия
+    }
   };
 
   return (
@@ -86,6 +96,7 @@ const EditableRow = ({
           onChange={handleInputChange}
           className={inputClassName("english")}
         />
+        {/* Отображение сообщения об ошибке, если есть */}
         {errors.english && (
           <div className={styles.errorMsg}>{errors.english}</div>
         )}
@@ -99,6 +110,7 @@ const EditableRow = ({
           className={inputClassName("transcription")}
           onChange={handleInputChange}
         />
+        {/* Отображение сообщения об ошибке, если есть */}
         {errors.transcription && (
           <div className={styles.errorMsg}>{errors.transcription}</div>
         )}
@@ -113,6 +125,7 @@ const EditableRow = ({
           className={inputClassName("russian")}
           onChange={handleInputChange}
         />
+        {/* Отображение сообщения об ошибке, если есть */}
         {errors.russian && (
           <div className={styles.errorMsg}>{errors.russian}</div>
         )}

@@ -1,28 +1,49 @@
-import { useState, Fragment, useEffect } from "react";
+import { useState, Fragment, useEffect, useContext } from "react";
+import WordsContext from "../../contexts/WordsContext";
 import { nanoid } from "nanoid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 import styles from "./WordList.module.css";
-import data from "../../data/data.json";
+// import data from "../../data/data.json";
 import ReadOnlyRow from "./ReadOnlyRow";
 import EditableRow from "./EditableRow";
 
 const WordList = () => {
-  const [words, setWords] = useState(data); //хранит массив слов
+  const { words, fetchWords, addWord, updateWord, deleteWord } =
+    useContext(WordsContext); // Получение данных и функций из контекста
+  const [isLoading, setIsLoading] = useState(true); // Состояние для отслеживания загрузки данных
+  const [error, setError] = useState(null); // Состояние для отслеживания ошибок
 
-  //начало блока для полей добавления нового слова
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await fetchWords();
+        setIsLoading(false); // После завершения загрузки устанавливаем isLoading в false
+      } catch (error) {
+        setError(error.message); // Устанавливаем сообщение об ошибке в состояние error
+        setIsLoading(false); // После ошибки также устанавливаем isLoading в false
+      }
+    };
+
+    fetchData();
+  }, []);
+  // console.log(words);
+
+  // const [words, setWords] = useState(data); //хранит массив слов без контекста
+
+  // начало блока для полей добавления нового слова
   ////////////////////////////////////////////////
 
   const [addFormData, setAddFormData] = useState({
-    //хранит данные формы для добавления слова
+    // хранит данные формы для добавления слова
     english: "",
     transcription: "",
     russian: "",
   });
 
   const [errors, setErrors] = useState({
-    //хранит данные об ошибках валидации вводимого слова
+    // хранит данные об ошибках валидации вводимого слова
     english: "",
     transcription: "",
     russian: "",
@@ -48,8 +69,8 @@ const WordList = () => {
     validateForm();
   }, [addFormData]);
 
-  const handleAddFormSubmit = (event) => {
-    //обработчик события для управления состоянием формы сохранения нового слова
+  const handleAddFormSubmit = async (event) => {
+    // обработчик события для управления состоянием формы сохранения нового слова
     event.preventDefault();
 
     // Вызываем функцию валидации перед отправкой формы
@@ -66,30 +87,30 @@ const WordList = () => {
 
       // Выводим параметры формы в консоль
       console.log("Form data:", newWord);
+      alert("Слово добавлено");
 
-      const newWords = [...words, newWord];
-      setWords(newWords);
-
-      // Сбросить значения полей формы после добавления слова
-      setAddFormData({
-        english: "",
-        transcription: "",
-        russian: "",
-      });
-
-      // Очищаем ошибки после успешной отправки формы
-      setErrors({
-        english: "",
-        transcription: "",
-        russian: "",
-      });
-
-      // Сбросить состояние кнопки
-      setIsFormValid(false);
+      try {
+        await addWord(newWord); // Используем функцию addWord из контекста для добавления нового слова
+        // После успешного добавления слова сбрасываем значения полей и ошибок
+        setAddFormData({
+          english: "",
+          transcription: "",
+          russian: "",
+        });
+        setErrors({
+          english: "",
+          transcription: "",
+          russian: "",
+        });
+        setIsFormValid(false);
+      } catch (error) {
+        console.error("Error adding word:", error);
+        // В случае ошибки отображаем сообщение пользователю или выполняем необходимые действия
+      }
     }
   };
 
-  //условия валидации каждого поля
+  // условия валидации каждого поля
   const validateField = (fieldName, value) => {
     let errorMessage = "";
     if (fieldName === "english") {
@@ -153,22 +174,22 @@ const WordList = () => {
   };
 
   ///////////////////////////////////////////////
-  //конец блока для полей добавления нового слова
+  // конец блока для полей добавления нового слова
 
-  //начало блока для таблицы со словами
+  // начало блока для таблицы со словами
   ////////////////////////////////////////
 
   const [editFormData, setEditFormData] = useState({
-    //хранит данные формы для редактирования слова
+    // хранит данные формы для редактирования слова
     english: "",
     transcription: "",
     russian: "",
   });
 
-  const [editWordId, setEditWordId] = useState(null); //хранит идентификатор редактируемого слова
+  const [editWordId, setEditWordId] = useState(null); // хранит идентификатор редактируемого слова
 
   const handleEditFormChange = (event) => {
-    //обработчик события для управления состоянием формы редактирования слова
+    // обработчик события для управления состоянием формы редактирования слова
     event.preventDefault();
 
     const fieldName = event.target.getAttribute("name");
@@ -180,8 +201,8 @@ const WordList = () => {
     setEditFormData(newFormData);
   };
 
-  const handleEditFormSubmit = (event) => {
-    //обработчик события для управления состоянием формы сохранения редактированного слова
+  const handleEditFormSubmit = async (event) => {
+    // обработчик события для управления состоянием формы сохранения редактированного слова
     event.preventDefault();
 
     const editedWord = {
@@ -191,18 +212,17 @@ const WordList = () => {
       russian: editFormData.russian,
     };
 
-    const newWords = [...words];
-
-    const index = words.findIndex((word) => word.id === editWordId);
-
-    newWords[index] = editedWord;
-
-    setWords(newWords);
-    setEditWordId(null);
+    try {
+      await updateWord(editedWord); // Используем функцию updateWord из контекста для обновления слова
+      setEditWordId(null);
+    } catch (error) {
+      console.error("Error updating word:", error);
+      // В случае ошибки отображаем сообщение пользователю или выполняем другие необходимые действия
+    }
   };
 
   const handleEditClick = (event, word) => {
-    //обработчик события для управления состоянием кнопки редактирования слова
+    // обработчик события для управления состоянием кнопки редактирования слова
     event.preventDefault();
     setEditWordId(word.id);
 
@@ -219,122 +239,141 @@ const WordList = () => {
     setEditWordId(null);
   };
 
-  const handleDeleteClick = (wordId) => {
-    const newWords = [...words];
-
-    const index = words.findIndex((word) => word.id === wordId);
-
-    newWords.splice(index, 1);
-
-    setWords(newWords);
+  const handleDeleteClick = async (wordId) => {
+    try {
+      await deleteWord(wordId); // Используем функцию deleteWord из контекста для удаления слова
+      // Если удаление прошло успешно, вызываем функцию fetchWords для обновления списка слов
+      await fetchWords();
+    } catch (error) {
+      console.error("Error deleting word:", error);
+      // В случае ошибки отображаем сообщение пользователю или выполняем другие необходимые действия
+    }
   };
 
   ////////////////////////////////////
-  //конец блока для таблицы со словами
+  // конец блока для таблицы со словами
 
   return (
     <div className={styles.tableWrapper}>
-      <form onSubmit={handleAddFormSubmit}>
-        <table>
-          <tbody className={styles.formChange}>
-            <tr>
-              <td>
-                <input
-                  type="text"
-                  name="english"
-                  placeholder="добавить свое слово"
-                  value={addFormData.english}
-                  onChange={handleAddFormChange}
-                  className={`${styles.input} ${
-                    errors.english && styles.inputError
-                  }`}
-                />
-                {errors.english && (
-                  <div className={styles.errorMsg}>{errors.english}</div>
-                )}
-              </td>
-              <td>
-                <input
-                  type="text"
-                  name="transcription"
-                  placeholder="транскрипция"
-                  value={addFormData.transcription}
-                  onChange={handleAddFormChange}
-                  className={`${styles.input} ${
-                    errors.transcription && styles.inputError
-                  }`}
-                />
-                {errors.transcription && (
-                  <div className={styles.errorMsg}>{errors.transcription}</div>
-                )}
-              </td>
-              <td>
-                <input
-                  type="text"
-                  name="russian"
-                  placeholder="перевод слова"
-                  value={addFormData.russian}
-                  onChange={handleAddFormChange}
-                  className={`${styles.input} ${
-                    errors.russian && styles.inputError
-                  }`}
-                />
-                {errors.russian && (
-                  <div className={styles.errorMsg}>{errors.russian}</div>
-                )}
-              </td>
-              <td className={styles.tdButton}>
-                <button
-                  type="submit"
-                  title="добавить слово"
-                  disabled={!isFormValid}
-                  className={`${styles.button} ${
-                    !isFormValid && styles.disabled
-                  }`}
-                >
-                  <FontAwesomeIcon icon={faPlus} className={styles.icon} />
-                </button>
-              </td>
-              <td className={styles.tdButton}>
-                <button
-                  type="reset"
-                  title="отмена"
-                  onClick={handleCancelAddWordClick}
-                >
-                  <FontAwesomeIcon icon={faTimes} className={styles.icon} />{" "}
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </form>
-      <form onSubmit={handleEditFormSubmit}>
-        <table>
-          <tbody className={styles.formEdit}>
-            {words.map((word) => (
-              <Fragment key={word.id}>
-                {editWordId === word.id ? (
-                  <EditableRow
-                    editFormData={editFormData}
-                    handleEditFormChange={handleEditFormChange}
-                    handleCancelClick={handleCancelClick}
-                    validateField={validateField} //передача правил валидации дочернему компоненту через пропсы
-                    isFormValid={isFormValid} // Добавляем isFormValid
-                    editWordId={editWordId}
-                    setEditWordId={setEditWordId}
-                  />
-                ) : (
-                  <ReadOnlyRow
-                    word={word}
-                    handleEditClick={handleEditClick}
-                    handleDeleteClick={handleDeleteClick}
-                  />
-                )}
-              </Fragment>
-            ))}
-          </tbody>
-        </table>
-      </form>
+      {isLoading ? (
+        <div className={styles.cssloadPreloader}>
+          <div className={styles.cssloadPreloaderBox}>
+            {" "}
+            <div>L</div> <div>o</div> <div>a</div> <div>d</div> <div>i</div>{" "}
+            <div>n</div> <div>g</div>
+          </div>
+        </div> // Лоадер показывается, пока данные загружаются
+      ) : error ? (
+        <div className={styles.fetchError}>Error: {error}</div> // Показываем сообщение об ошибке в случае ошибки
+      ) : (
+        <Fragment>
+          <form onSubmit={handleAddFormSubmit}>
+            <table>
+              <tbody className={styles.formChange}>
+                <tr>
+                  <td>
+                    <input
+                      type="text"
+                      name="english"
+                      placeholder="добавить свое слово"
+                      value={addFormData.english}
+                      onChange={handleAddFormChange}
+                      className={`${styles.input} ${
+                        errors.english && styles.inputError
+                      }`}
+                    />
+                    {errors.english && (
+                      <div className={styles.errorMsg}>{errors.english}</div>
+                    )}
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      name="transcription"
+                      placeholder="транскрипция"
+                      value={addFormData.transcription}
+                      onChange={handleAddFormChange}
+                      className={`${styles.input} ${
+                        errors.transcription && styles.inputError
+                      }`}
+                    />
+                    {errors.transcription && (
+                      <div className={styles.errorMsg}>
+                        {errors.transcription}
+                      </div>
+                    )}
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      name="russian"
+                      placeholder="перевод слова"
+                      value={addFormData.russian}
+                      onChange={handleAddFormChange}
+                      className={`${styles.input} ${
+                        errors.russian && styles.inputError
+                      }`}
+                    />
+                    {errors.russian && (
+                      <div className={styles.errorMsg}>{errors.russian}</div>
+                    )}
+                  </td>
+                  <td className={styles.tdButton}>
+                    <button
+                      type="submit"
+                      title="добавить слово"
+                      disabled={!isFormValid}
+                      className={`${styles.button} ${
+                        !isFormValid && styles.disabled
+                      }`}
+                    >
+                      <FontAwesomeIcon icon={faPlus} className={styles.icon} />
+                    </button>
+                  </td>
+                  <td className={styles.tdButton}>
+                    <button
+                      type="reset"
+                      title="отмена"
+                      onClick={handleCancelAddWordClick}
+                    >
+                      <FontAwesomeIcon icon={faTimes} className={styles.icon} />{" "}
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+          <form onSubmit={handleEditFormSubmit}>
+            <table>
+              <tbody className={styles.formEdit}>
+                {words.map((word) => (
+                  <Fragment key={word.id}>
+                    {editWordId === word.id ? (
+                      <EditableRow
+                        editFormData={editFormData}
+                        handleEditFormChange={handleEditFormChange}
+                        handleCancelClick={handleCancelClick}
+                        validateField={validateField} // передача правил валидации дочернему компоненту через пропсы
+                        isFormValid={isFormValid} // Добавляем isFormValid
+                        editWordId={editWordId}
+                        setEditWordId={setEditWordId}
+                        updateWord={updateWord}
+                        handleEditFormSubmit={handleEditFormSubmit}
+                      />
+                    ) : (
+                      <ReadOnlyRow
+                        word={word}
+                        handleEditClick={handleEditClick}
+                        handleDeleteClick={handleDeleteClick}
+                      />
+                    )}
+                  </Fragment>
+                ))}
+              </tbody>
+            </table>
+          </form>
+        </Fragment>
+      )}
     </div>
   );
 };

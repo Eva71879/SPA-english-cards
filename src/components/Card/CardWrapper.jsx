@@ -1,9 +1,18 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
+import WordsContext from "../../contexts/WordsContext";
 import Card from "./Card";
-import data from "../../data/data.json";
+// import data from "../../data/data.json";
 import styles from "./CardWrapper.module.css";
 
 const CardWrapper = ({ defaultIndex = 0 }) => {
+  const { words, fetchWords } = useContext(WordsContext);
+
+  useEffect(() => {
+    fetchWords();
+  }, []);
+
+  const data = words;
+
   const [currentCardIndex, setCurrentCardIndex] = useState(defaultIndex);
   const [countTranslationClick, setCountTranslationClick] = useState(0);
   const [showTranslation, setShowTranslation] = useState(false);
