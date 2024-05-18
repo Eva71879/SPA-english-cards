@@ -8,14 +8,14 @@ function Card(props) {
     russian,
     showTranslation,
     toggleTranslation,
-    increment,
-    countTranslationClick,
     buttonRef, //принимаю реф от родителя
+    learnedWords,
+    markAsLearned,
   } = props; //принимаю пропсы от родителя (CardWrapper)
 
   const handleTranslationClick = () => {
     toggleTranslation(); // показываем или скрываем перевод
-    increment(); // Увеличиваем счетчик при нажатии на перевод
+    markAsLearned(); // Помечаем слово как выученное
   };
 
   return (
@@ -42,7 +42,7 @@ function Card(props) {
         </div>
       </div>
       <p className={styles.counter}>
-        Выучено слов сегодня: {countTranslationClick}
+        Выучено слов сегодня: {learnedWords.length}
       </p>
     </div>
   );

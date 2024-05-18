@@ -75,7 +75,12 @@ const EditableRow = ({
     console.log("Word ID:", editWordId, "Form data:", editFormData);
 
     try {
-      await updateWord(editFormData); // Используем функцию обновления слова из контекста
+      await updateWord({
+        ...editFormData,
+        tags: "",
+        tags_json: "",
+        id: editWordId,
+      }); // Используем функцию обновления слова из контекста
       console.log("Changes saved successfully!");
       setEditWordId(null);
     } catch (error) {

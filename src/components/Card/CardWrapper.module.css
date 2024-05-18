@@ -26,3 +26,10 @@
         border: 1px solid var(--hoverBackgroundColor);
 }
 
+.fetchError {
+	font-size: 25px;
+	color: white;
+	padding-left: 15px;
+	padding-top: 150px;
+}
+

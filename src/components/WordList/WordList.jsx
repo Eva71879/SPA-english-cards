@@ -8,6 +8,7 @@ import styles from "./WordList.module.css";
 // import data from "../../data/data.json";
 import ReadOnlyRow from "./ReadOnlyRow";
 import EditableRow from "./EditableRow";
+import Loader from "../UI/Loader";
 
 const WordList = () => {
   const { words, fetchWords, addWord, updateWord, deleteWord } =
@@ -87,7 +88,6 @@ const WordList = () => {
 
       // Выводим параметры формы в консоль
       console.log("Form data:", newWord);
-      alert("Слово добавлено");
 
       try {
         await addWord(newWord); // Используем функцию addWord из контекста для добавления нового слова
@@ -103,7 +103,9 @@ const WordList = () => {
           russian: "",
         });
         setIsFormValid(false);
+        alert("Слово добавлено");
       } catch (error) {
+        alert("Ошибка добавления слова");
         console.error("Error adding word:", error);
         // В случае ошибки отображаем сообщение пользователю или выполняем необходимые действия
       }
@@ -216,6 +218,7 @@ const WordList = () => {
       await updateWord(editedWord); // Используем функцию updateWord из контекста для обновления слова
       setEditWordId(null);
     } catch (error) {
+      alert("Ошибка редактирования слова");
       console.error("Error updating word:", error);
       // В случае ошибки отображаем сообщение пользователю или выполняем другие необходимые действия
     }
@@ -245,7 +248,8 @@ const WordList = () => {
       // Если удаление прошло успешно, вызываем функцию fetchWords для обновления списка слов
       await fetchWords();
     } catch (error) {
-      console.error("Error deleting word:", error);
+      alert("Ошибка удаления слова");
+      console.error("Ошибка удаления слова", error);
       // В случае ошибки отображаем сообщение пользователю или выполняем другие необходимые действия
     }
   };
@@ -256,15 +260,9 @@ const WordList = () => {
   return (
     <div className={styles.tableWrapper}>
       {isLoading ? (
-        <div className={styles.cssloadPreloader}>
-          <div className={styles.cssloadPreloaderBox}>
-            {" "}
-            <div>L</div> <div>o</div> <div>a</div> <div>d</div> <div>i</div>{" "}
-            <div>n</div> <div>g</div>
-          </div>
-        </div> // Лоадер показывается, пока данные загружаются
+        <Loader />
       ) : error ? (
-        <div className={styles.fetchError}>Error: {error}</div> // Показываем сообщение об ошибке в случае ошибки
+        <div className={styles.fetchError}>Ошибка: {error}</div> // Показываем сообщение об ошибке в случае ошибки
       ) : (
         <Fragment>
           <form onSubmit={handleAddFormSubmit}>
