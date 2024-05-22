@@ -1,13 +1,22 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import Card from "./Card";
 import data from "../../data/data.json";
 import styles from "./CardWrapper.module.css";
 
 const CardWrapper = ({ defaultIndex = 0 }) => {
   const [currentCardIndex, setCurrentCardIndex] = useState(defaultIndex);
-  const [countTranslationClick, setCountTranslationClick] = useState(0);
   const [showTranslation, setShowTranslation] = useState(false);
   const buttonRef = useRef(null); //объявляю ref
+  const [learnedWords, setLearnedWords] = useState([]); // Состояние для отслеживания выученных слов
+
+  const markAsLearned = (wordId) => {
+    setLearnedWords((prevLearnedWords) => {
+      if (!prevLearnedWords.includes(wordId)) {
+        return [...prevLearnedWords, wordId];
+      }
+      return prevLearnedWords;
+    });
+  };
 
   const handleNextCard = () => {
     if (currentCardIndex < data.length - 1) {
@@ -29,10 +38,6 @@ const CardWrapper = ({ defaultIndex = 0 }) => {
     }
   };
 
-  const increment = () => {
-    setCountTranslationClick(countTranslationClick + 1); //функция увеличения счетчика
-  };
-
   const toggleTranslation = () => {
     setShowTranslation(!showTranslation); //функция переключения отображения и скрытия перевода
   };
@@ -52,9 +57,9 @@ const CardWrapper = ({ defaultIndex = 0 }) => {
         russian={data[currentCardIndex].russian}
         showTranslation={showTranslation} //передала функцию ребенку (Card)
         toggleTranslation={toggleTranslation} //передала функцию ребенку (Card)
-        increment={increment} //передала функцию ребенку (Card)
-        countTranslationClick={countTranslationClick} //передала функцию ребенку (Card)
         buttonRef={buttonRef} //передаю ref в дочерний компонент
+        markAsLearned={() => markAsLearned(data[currentCardIndex].id)} // передаем функцию для пометки слова как выученного
+        learnedWords={learnedWords} // передаем массив выученных слов
       />
       <button className={styles.nextButton} onClick={handleNextCard}>
         <i className="fa-solid fa-arrow-right-long fa-lg"></i>
