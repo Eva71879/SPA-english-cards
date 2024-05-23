@@ -5,6 +5,8 @@ import {
   faArrowRotateLeft,
 } from "@fortawesome/free-solid-svg-icons";
 
+import wordsStore from "../../stores/WordsStore";
+
 import styles from "./WordList.module.css";
 
 const EditableRow = ({
@@ -15,6 +17,8 @@ const EditableRow = ({
   editWordId,
   setEditWordId, // Добавляем пропс для обновления editWordId
 }) => {
+  const { updateWord } = wordsStore; //получение функции из store
+
   const [errors, setErrors] = useState({
     english: "",
     russian: "",
@@ -66,12 +70,23 @@ const EditableRow = ({
       : styles.input;
   };
 
-  const handleEditFormSubmit = (event) => {
+  const handleEditFormSubmit = async (event) => {
     event.preventDefault();
     console.log("Word ID:", editWordId, "Form data:", editFormData);
 
-    // Добавляем обновление editWordId
-    setEditWordId(null);
+    try {
+      await updateWord({
+        ...editFormData,
+        tags: "",
+        tags_json: "",
+        id: editWordId,
+      }); // Используем функцию обновления слова из store
+      console.log("Changes saved successfully!");
+      setEditWordId(null);
+    } catch (error) {
+      console.error("Error updating word:", error);
+      // В случае ошибки отображаем сообщение пользователю или выполняем другие необходимые действия
+    }
   };
 
   return (

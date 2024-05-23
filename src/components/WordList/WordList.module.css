@@ -123,3 +123,9 @@ button:hover {
   opacity: 0.5; /* Уменьшаем прозрачность */
   cursor: not-allowed; /* Запрещаем изменение курсора */
 }
+
+.fetchError {
+	font-size: 25px;
+	color: white;
+	padding-left: 15px;
+}
