@@ -72,33 +72,33 @@ const CardWrapper = ({ defaultIndex = 0 }) => {
     }
   }, [currentCardIndex, loading]); // Добавлен loading для установки фокуса при первой загрузке
 
+  if (error) {
+    return <div className={styles.fetchError}>Ошибка: {error}</div>;
+  }
+
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
-    <>
-      {error ? (
-        <div className={styles.fetchError}>Ошибка: {error}</div>
-      ) : loading ? (
-        <Loader />
-      ) : (
-        <div className={styles.cardWrapper}>
-          <button className={styles.prevButton} onClick={handlePrevCard}>
-            <i className="fa-solid fa-arrow-left-long fa-lg"></i>
-          </button>
-          <Card
-            english={data[currentCardIndex].english}
-            transcription={data[currentCardIndex].transcription}
-            russian={data[currentCardIndex].russian}
-            showTranslation={showTranslation} //передала функцию ребенку (Card)
-            toggleTranslation={toggleTranslation} //передала функцию ребенку (Card)
-            buttonRef={buttonRef} //передаю ref в дочерний компонент
-            markAsLearned={() => markAsLearned(data[currentCardIndex].id)} // передаем функцию для пометки слова как выученного
-            learnedWords={learnedWords} // передаем массив выученных слов
-          />
-          <button className={styles.nextButton} onClick={handleNextCard}>
-            <i className="fa-solid fa-arrow-right-long fa-lg"></i>
-          </button>
-        </div>
-      )}
-    </>
+    <div className={styles.cardWrapper}>
+      <button className={styles.prevButton} onClick={handlePrevCard}>
+        <i className="fa-solid fa-arrow-left-long fa-lg"></i>
+      </button>
+      <Card
+        english={data[currentCardIndex].english}
+        transcription={data[currentCardIndex].transcription}
+        russian={data[currentCardIndex].russian}
+        showTranslation={showTranslation} // передала функцию ребенку (Card)
+        toggleTranslation={toggleTranslation} // передала функцию ребенку (Card)
+        buttonRef={buttonRef} // передаю ref в дочерний компонент
+        markAsLearned={() => markAsLearned(data[currentCardIndex].id)} // передаем функцию для пометки слова как выученного
+        learnedWords={learnedWords} // передаем массив выученных слов
+      />
+      <button className={styles.nextButton} onClick={handleNextCard}>
+        <i className="fa-solid fa-arrow-right-long fa-lg"></i>
+      </button>
+    </div>
   );
 };
 
