@@ -1,6 +1,6 @@
 //установлен mobx-react-lite
 import { makeAutoObservable } from "mobx";
-
+const baseUrl = "https://itgirlschool.justmakeit.ru";
 class WordsStore {
   words = [];
   constructor() {
@@ -10,13 +10,13 @@ class WordsStore {
   // this.fetchWord = this.fetchWord.bind(this)
 
   fetchWords = async () => {
-    const response = await fetch("/api/words");
+    const response = await fetch(`${baseUrl}/api/words`);
     const data = await response.json();
     this.words = data;
   };
 
   addWord = async (newWord) => {
-    const response = await fetch("/api/words/add", {
+    const response = await fetch(`${baseUrl}/api/words/add`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -28,13 +28,16 @@ class WordsStore {
   };
 
   updateWord = async (updatedWord) => {
-    const response = await fetch(`/api/words/${updatedWord.id}/update`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedWord),
-    });
+    const response = await fetch(
+      `${baseUrl}/api/words/${updatedWord.id}/update`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedWord),
+      }
+    );
     const data = await response.json();
     this.words = this.words.map((word) =>
       word.id === updatedWord.id ? data : word
@@ -42,7 +45,7 @@ class WordsStore {
   };
 
   deleteWord = async (id) => {
-    await fetch(`/api/words/${id}/delete`, {
+    await fetch(`${baseUrl}/api/words/${id}/delete`, {
       method: "POST",
     });
     this.words = this.words.filter((word) => word.id !== id);
