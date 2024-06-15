@@ -1,8 +1,59 @@
-# React + Vite
+# WordWizard
+WordWizard - это веб-приложение для изучения английского языка, делает процесс увлекательным и волшебным!
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Описание
+WordWizard позволяет пользователям изучать английский язык с помощью карточек. Пользователи могут переходить между главной страницей и игровым режимом для улучшения своих языковых навыков.
 
-Currently, two official plugins are available:
+## Функциональность
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Главная страница**: Таблица слов с возможностью добавления, удаления и редактирования.
+- **Игра в карточки**: Интерактивная игра для изучения слов из таблицы.
+
+## Демо
+
+Приложение развернуто и доступно по следующему адресу: [WordWizard](https://app.koshelevalena.ru/)
+
+# Технологии
+React
+Vite
+React Router
+MobX
+
+## Установка и запуск
+
+### Требования
+
+- Node.js (рекомендуемая версия)
+- npm или yarn
+
+### Установка
+
+1. Клонируйте репозиторий:
+
+    ```bash
+    git clone https://github.com/your-username/wordwizard.git
+    cd wordwizard
+    ```
+
+2. Установите зависимости:
+
+    ```bash
+    npm install
+    # или
+    yarn install
+    ```
+
+### Запуск приложения
+
+Для запуска приложения в режиме разработки:
+
+```bash
+npm run dev
+# или
+yarn dev
+
+Для сборки приложения:
+
+npm run build
+# или
+yarn build
