@@ -1,10 +1,11 @@
 # WordWizard
 WordWizard - это веб-приложение для изучения английского языка, делает процесс увлекательным и волшебным!
 
+## Скриншоты
 
-<img src="![wordWizard1](https://github.com/user-attachments/assets/622e4eac-c441-435c-a4a4-b0a61a257625)" alt="screenshot" width="100px"/>  
-<img src="assets/wordWizard2.jpg" alt="screenshot" width="100px"/>  
-<img src="assets/wordWizard3.jpg" alt="screenshot" width="100px"/>  
+![Скриншот 1](wordWizard1.jpg)
+![Скриншот 2](wordWizard2.jpg)
+![Скриншот 3](wordWizard3.jpg) 
 
 ## Демо
 Приложение развернуто и доступно по следующему адресу: <a href="https://app.koshelevalena.ru/" target="_blank">WordWizard</a>)
